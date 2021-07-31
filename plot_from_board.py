@@ -46,7 +46,7 @@ def create_plot(path, pdf_scale=1):
     popt.SetIncludeGerberNetlistInfo(True)
     popt.SetCreateGerberJobFile(gen_job_file)
     popt.SetUseGerberProtelExtensions(False)
-    popt.SetExcludeEdgeLayer(False);
+    popt.SetExcludeEdgeLayer(True)  #fix
     popt.SetUseAuxOrigin(True)
 
     # This by gerbers only
@@ -77,6 +77,7 @@ def create_plot(path, pdf_scale=1):
         ( "B_Mask", B_Mask, "Mask bottom" ),
         ( "F_Mask", F_Mask, "Mask top" ),
         ( "Edge_Cuts", Edge_Cuts, "Edges" ),
+        ( "VCUT", Eco1_User, "VCUT" ),
     ]
 
 
@@ -157,6 +158,7 @@ def create_plot(path, pdf_scale=1):
     #Create a pdf file of the top silk layer
     popt.SetOutputDirectory(path+"../")
     popt.SetScale(pdf_scale)
+    popt.SetExcludeEdgeLayer(False)  #fix
     pctl.SetLayer(F_Fab)
     pctl.OpenPlotfile("Assembly", PLOT_FORMAT_PDF, "Assembly guide")
     pctl.PlotLayer()

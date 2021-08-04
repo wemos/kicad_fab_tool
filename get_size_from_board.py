@@ -14,22 +14,21 @@ import wx
 
 
 
-# def get_size():
+def get_size():
 
-#     board = GetBoard()
+    board = GetBoard()
 
-#     # offset=board.GetDesignSettings().m_AuxOrigin
+    offset=board.GetDesignSettings().m_AuxOrigin
 
-#     rect=GetBoardBound()
+    rect=GetBoardBound()
 
 
-#     # ss=str(offset)+" x="+str(rect.GetLeft())+ " y="+str(rect.GetBottom()) +"\n"
-#     # ss+="Width:"+ str(rect.GetWidth()/1000000.0)+"mm\n"
-#     # ss+="Height:"+ str(rect.GetHeight()/1000000.0)+"mm\n"
-#     # wx.MessageDialog(None,  ss).ShowModal()
+    ss=str(offset)+" x="+str(rect.GetLeft())+ " y="+str(rect.GetBottom()) +"\n"
+    ss+="Width:"+ str(rect.GetWidth()/1000000.0)+"mm\n"
+    ss+="Height:"+ str(rect.GetHeight()/1000000.0)+"mm\n"
+    wx.MessageDialog(None,  ss).ShowModal()
     
-#     new_p=wxPoint(rect.GetLeft(),rect.GetBottom())
-#     board.GetDesignSettings().m_AuxOrigin=new_p
+
 
 
 def GetBoardBound(brd = None, marginLayer = Edge_Cuts):
@@ -41,6 +40,8 @@ def GetBoardBound(brd = None, marginLayer = Edge_Cuts):
 
     rect = None
 
+    offset=brd.GetDesignSettings().m_AuxOrigin
+
     for dwg in brd.GetDrawings():
         if dwg.GetLayer() == marginLayer:
             if hasattr(dwg, 'Cast_to_DRAWSEGMENT'):
@@ -50,17 +51,16 @@ def GetBoardBound(brd = None, marginLayer = Edge_Cuts):
             w = d.GetWidth()
             box = d.GetBoundingBox()
 
-            box.SetX(int(box.GetX() + w/2))
-            box.SetY(int(box.GetY() + w/2))
-            box.SetWidth(int(box.GetWidth() - w))
-            box.SetHeight(int(box.GetHeight() - w))
-            if rect:
-                rect.Merge(box)
-            else:
-                rect = box
-    w = 200000
-    rect.SetX(int(rect.GetX() + w/2))
-    rect.SetY(int(rect.GetY() + w/2))
-    rect.SetWidth(int(rect.GetWidth() - w))
-    rect.SetHeight(int(rect.GetHeight() - w))
+            if(int(box.GetWidth())==w or int(box.GetHeight())==w):  # only for line
+                
+                box.SetX(int(box.GetX() + w/2))
+                box.SetY(int(box.GetY() + w/2))
+                box.SetWidth(int(box.GetWidth() - w))
+                box.SetHeight(int(box.GetHeight() - w))
+
+                if rect:
+                    rect.Merge(box)
+                else:
+                    rect = box
+
     return rect

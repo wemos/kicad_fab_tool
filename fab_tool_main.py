@@ -51,8 +51,10 @@ def create_pcba():
     bound=GetBoardBound()
 
     # Set AuxOrigin
-    # new_AuxOrigin=wxPoint(bound.GetLeft(),bound.GetBottom()) 
-    # board.GetDesignSettings().m_AuxOrigin=new_AuxOrigin
+
+    # get_size()
+    new_AuxOrigin=wxPoint(bound.GetLeft(),bound.GetBottom()) 
+    board.GetDesignSettings().m_AuxOrigin=new_AuxOrigin
 
     # Set pdf_scale
     pcb_width=bound.GetWidth()/1000000.0  # mm
@@ -82,6 +84,12 @@ def create_pcba():
             if(file_ext=="gbr" or file_ext=="drl"):
                 f.write(os.path.join(dirpath,filename),arcname=os.path.join("plot/"+filename))
     f.close()
+
+
+    ss="Done!\nPCB Width: "+ str(bound.GetWidth()/1000000.0)+"mm, "
+    ss+="Height: "+ str(bound.GetHeight()/1000000.0)+"mm\n"
+    wx.MessageDialog(None,  ss).ShowModal()
+    
 
 
     

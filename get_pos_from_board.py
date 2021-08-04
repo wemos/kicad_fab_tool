@@ -27,9 +27,9 @@ def create_pos(filename):
         
 
         for footprint in board.Footprints():
-
-            tt.append(footprint)
-            tt[-1].SetReference(tt[-1].GetReference().split(',', 1)[0])
+            if(not (footprint.GetAttributes() & FP_EXCLUDE_FROM_POS_FILES )):
+                tt.append(footprint)
+                tt[-1].SetReference(tt[-1].GetReference().split(',', 1)[0])
 
 
 

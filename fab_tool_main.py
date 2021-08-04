@@ -58,8 +58,8 @@ def create_pcba():
     pcb_width=bound.GetWidth()/1000000.0  # mm
     pcb_height=bound.GetHeight()/1000000.0
 
-    A4_width=297.0
-    A4_height=210.0
+    A4_width=297.0-30
+    A4_height=210.0-30
 
     pdf_scale=min(A4_width/pcb_width, A4_height/pcb_height)
 

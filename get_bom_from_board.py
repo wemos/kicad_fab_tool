@@ -25,23 +25,24 @@ def create_bom(filename):
         
 
         for footprint in board.Footprints():
-            if len(tt)==0:
-                tt.append(footprint)
-                tt[-1].SetReference(tt[-1].GetReference().split(',', 1)[0])
-                tt[-1].qty=1
-            else:
+            if(not (footprint.GetAttributes() & FP_EXCLUDE_FROM_BOM)):
+                if len(tt)==0:
+                    tt.append(footprint)
+                    tt[-1].SetReference(tt[-1].GetReference().split(',', 1)[0])
+                    tt[-1].qty=1
+                else:
 
-                for tmp in tt:
-                    if(tmp.GetValue()==footprint.GetValue() and tmp.GetFPID().GetLibItemName()==footprint.GetFPID().GetLibItemName()):
-                        tmp.SetReference(tmp.GetReference()+","+ footprint.GetReference().split(',', 1)[0])
-                        tmp.qty=tmp.qty+1
-                        break
+                    for tmp in tt:
+                        if(tmp.GetValue()==footprint.GetValue() and tmp.GetFPID().GetLibItemName()==footprint.GetFPID().GetLibItemName()):
+                            tmp.SetReference(tmp.GetReference()+","+ footprint.GetReference().split(',', 1)[0])
+                            tmp.qty=tmp.qty+1
+                            break
 
-                    if(tmp==tt[-1]):
-                        tt.append(footprint)
-                        tt[-1].SetReference(tt[-1].GetReference().split(',', 1)[0])
-                        tt[-1].qty=1
-                        break
+                        if(tmp==tt[-1]):
+                            tt.append(footprint)
+                            tt[-1].SetReference(tt[-1].GetReference().split(',', 1)[0])
+                            tt[-1].qty=1
+                            break
 
         tt.sort(key=sort_by_Reference)
         

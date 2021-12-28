@@ -160,7 +160,16 @@ def create_plot(path, pdf_scale=1):
     popt.SetScale(pdf_scale)
     popt.SetExcludeEdgeLayer(False)  #fix
     pctl.SetLayer(F_Fab)
-    pctl.OpenPlotfile("Assembly", PLOT_FORMAT_PDF, "Assembly guide")
+    pctl.OpenPlotfile("TOP-Assembly", PLOT_FORMAT_PDF, "Assembly guide")
+    pctl.PlotLayer()
+
+    #Create a pdf file of the bottom silk layer
+    popt.SetOutputDirectory(path+"../")
+    popt.SetScale(pdf_scale)
+    popt.SetExcludeEdgeLayer(False)  #fix
+    popt.SetMirror(True)
+    pctl.SetLayer(B_Fab)
+    pctl.OpenPlotfile("BOTTOM-Assembly", PLOT_FORMAT_PDF, "Assembly guide")
     pctl.PlotLayer()
 
     pctl.ClosePlot()

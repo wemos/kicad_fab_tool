@@ -54,7 +54,7 @@ def create_pcba():
 
     # get_size()
     new_AuxOrigin=wxPoint(bound.GetLeft(),bound.GetBottom()) 
-    board.GetDesignSettings().m_AuxOrigin=new_AuxOrigin
+    board.GetDesignSettings().SetAuxOrigin(new_AuxOrigin)
 
     # Set pdf_scale
     pcb_width=bound.GetWidth()/1000000.0  # mm

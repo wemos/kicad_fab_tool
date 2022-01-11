@@ -18,7 +18,7 @@ def get_size():
 
     board = GetBoard()
 
-    offset=board.GetDesignSettings().m_AuxOrigin
+    offset=board.GetDesignSettings().GetAuxOrigin()
 
     rect=GetBoardBound()
 
@@ -40,7 +40,7 @@ def GetBoardBound(brd = None, marginLayer = Edge_Cuts):
 
     rect = None
 
-    offset=brd.GetDesignSettings().m_AuxOrigin
+    offset=brd.GetDesignSettings().GetAuxOrigin()
 
     for dwg in brd.GetDrawings():
         if dwg.GetLayer() == marginLayer:

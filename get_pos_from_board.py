@@ -15,7 +15,7 @@ def create_pos(filename):
 
     board = GetBoard()
 
-    m_place_Offset=board.GetDesignSettings().m_AuxOrigin
+    m_place_Offset=board.GetDesignSettings().GetAuxOrigin()
 
 
 

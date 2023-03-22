@@ -54,8 +54,13 @@ def create_pos(filename):
                 f.write("\"B\",") 
             else:
                 f.write("\"\",") 
+            rotation = tmp.GetOrientation().AsDegrees() if hasattr(tmp.GetOrientation(), 'AsDegrees') else tmp.GetOrientation() / 10.0
+            # Get the rotation offset to be added to the actual rotation prioritizing the explicated by the
+            # designer at the standards symbol fields. If not specified use the internal database.
+
+            rotation = rotation  % 360.0
             
-            f.write("\"" + str(tmp.GetOrientation()/10) +"\",") #Rotation
+            f.write("\"" + str(rotation) +"\",") #Rotation
             f.write("\""+ tmp.GetValue() +"\"\n") #Comment
 
             

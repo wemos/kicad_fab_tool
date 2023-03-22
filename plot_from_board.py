@@ -46,13 +46,14 @@ def create_plot(path, pdf_scale=1):
     popt.SetIncludeGerberNetlistInfo(True)
     popt.SetCreateGerberJobFile(gen_job_file)
     popt.SetUseGerberProtelExtensions(False)
-    popt.SetExcludeEdgeLayer(True)  #fix
+    if hasattr(popt, "SetExcludeEdgeLayer"):
+        popt.SetExcludeEdgeLayer(True)  #fix
     popt.SetUseAuxOrigin(True)
 
     # This by gerbers only
     popt.SetSubtractMaskFromSilk(False)
     # Disable plot pad holes
-    popt.SetDrillMarksType( PCB_PLOT_PARAMS.NO_DRILL_SHAPE );
+    popt.SetDrillMarksType(0)
     # Skip plot pad NPTH when possible: when drill size and shape == pad size and shape
     # usually sel to True for copper layers
     popt.SetSkipPlotNPTH_Pads( False )
@@ -158,18 +159,38 @@ def create_plot(path, pdf_scale=1):
     #Create a pdf file of the top silk layer
     popt.SetOutputDirectory(path+"../")
     popt.SetScale(pdf_scale)
-    popt.SetExcludeEdgeLayer(False)  #fix
-    pctl.SetLayer(F_Fab)
-    pctl.OpenPlotfile("TOP-Assembly", PLOT_FORMAT_PDF, "Assembly guide")
-    pctl.PlotLayer()
 
+    pctl.OpenPlotfile("TOP-Assembly", PLOT_FORMAT_PDF, "Assembly guide")
+
+    if hasattr(popt, "SetExcludeEdgeLayer"):
+        popt.SetExcludeEdgeLayer(False)  #fix
+        pctl.SetLayer(F_Fab)
+        pctl.PlotLayer()
+
+    else:     
+        seq = LSEQ()
+        seq.push_back(Edge_Cuts)
+        seq.push_back(F_Fab)
+        pctl.PlotLayers(seq)
+
+
+    
+
+    
     #Create a pdf file of the bottom silk layer
     popt.SetOutputDirectory(path+"../")
     popt.SetScale(pdf_scale)
-    popt.SetExcludeEdgeLayer(False)  #fix
     popt.SetMirror(True)
-    pctl.SetLayer(B_Fab)
     pctl.OpenPlotfile("BOTTOM-Assembly", PLOT_FORMAT_PDF, "Assembly guide")
-    pctl.PlotLayer()
+
+    if hasattr(popt, "SetExcludeEdgeLayer"):
+        popt.SetExcludeEdgeLayer(False)  #fix
+        pctl.SetLayer(B_Fab)
+        pctl.PlotLayer()
+    else:
+        seq = LSEQ()
+        seq.push_back(Edge_Cuts)
+        seq.push_back(B_Fab)
+        pctl.PlotLayers(seq)
 
     pctl.ClosePlot()

@@ -53,7 +53,8 @@ def create_pcba():
     # Set AuxOrigin
 
     # get_size()
-    new_AuxOrigin=wxPoint(bound.GetLeft(),bound.GetBottom()) 
+    # new_AuxOrigin=wxPoint(bound.GetLeft(),bound.GetBottom()) 
+    new_AuxOrigin=VECTOR2I(bound.GetLeft(),bound.GetBottom()) 
     board.GetDesignSettings().SetAuxOrigin(new_AuxOrigin)
 
     # Set pdf_scale
